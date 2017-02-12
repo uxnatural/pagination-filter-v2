@@ -1,19 +1,3 @@
-//check if the browser has js enabled or add <noscript> message
-/*
-var studentList = new List('test-list', {
-  valueNames: ['name', 'email'],
-  page: 10,
-  pagination: true
-});
-
-$('#search').on('keyup', function() {
-  var searchString = $(this).val();
-  studentList.search(searchString);
-});
-
-var studentCount = document.getElementById('student-list').childElementCount;
-*/
-
 var studentCount = document.getElementById('student-list').children.length;
 var showItems = 10;
 var pageItems = showItems - 1;
@@ -58,6 +42,19 @@ var createGroupedArray = function(arr, chunkSize) {
         groups.push(arr.slice(i, i + chunkSize));
     }
     pages.push(groups);
+}
+
+var input = document.getElementById('search');
+input.onkeyup = function () {
+    var filter = input.value.toUpperCase();
+    var lis = document.getElementsByTagName('li');
+    for (var i = 0; i < lis.length; i++) {
+        var name = lis[i].getElementsByClassName('name')[0].innerHTML;
+        if (name.toUpperCase().indexOf(filter) == 0) 
+            lis[i].style.display = 'list-item';
+        else
+            lis[i].style.display = 'none';
+    }
 }
 
 //create an array of the li of the ul
