@@ -17,10 +17,10 @@ var studentCount = document.getElementById('student-list').childElementCount;
 var studentCount = document.getElementById('student-list').children.length;
 var showItems = 10;
 var pageItems = showItems - 1;
-var pages = studentCount / showItems;
+var pages = [];
 
 //When the page loads, your program should hide all but the first 10 students in the list.
-window.onload = function(){
+window.onload = function () {
     for(i = (studentCount - 1); i > pageItems; i--) {
         var hidden = document.getElementById('student-list').children[i].style.display = 'none';
     }
@@ -39,6 +39,25 @@ function pageTurn(pageNumber){
        var show = document.getElementById('student-list').children[i].style.display = 'block';
        console.log(i);
     }
+}
+//create an initial array of students
+var studentArray = [];
+
+//load students references into studentArray
+var getStarted = function(){
+    for(i = 0; i < studentCount; i++){
+        studentArray.push(i);
+    }
+}
+
+//function that will group the studentArray into pages based on the # of students and the desired items shown
+var createGroupedArray = function(arr, chunkSize) {
+    pages = [];
+    var groups = [], i;
+    for (i = 0; i < arr.length; i += chunkSize) {
+        groups.push(arr.slice(i, i + chunkSize));
+    }
+    pages.push(groups);
 }
 
 //create an array of the li of the ul
