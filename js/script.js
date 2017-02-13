@@ -34,7 +34,8 @@
     
 
     //insert searchbox input
-    document.getElementById('student-search').innerHTML = '<input type="text" id="search" class="search" placeholder="Search for students..." /><button>Search</button>';
+    var searchBox = '<input type="text" id="search" class="search" placeholder="Search for students..." /><button id="searchBtn" >Search</button>';
+    document.getElementById('student-search').innerHTML = searchBox;
     
     //insert pagination buttons
     for(i = pages[0].length; i > 0; i--){
@@ -77,47 +78,41 @@
     }
     showPageItems();
 
-    //hide all but the first page of students
-/*
-    for(i = 53; i > pages[0][0].length; i--) {
-        var hidden = document.getElementById('student-list').children[i].style.display = 'none';
+//
+    var input = document.getElementById('search');
+    var button = document.getElementById('searchBtn');
+    //input.onkeyup = function () {
+    button.onclick = function () {
+        var filter = input.value.toUpperCase();
+        //var lis = document.getElementsByTagName('li');
+        var lis = document.querySelector('#student-list').children;
+        var records = [];
+        for (var i = 0; i < lis.length; i++) {
+            var name = lis[i].getElementsByClassName('name')[0].innerHTML.toUpperCase();
+            var email = lis[i].getElementsByClassName('email')[0].innerHTML.toUpperCase();
+            //if (name.toUpperCase().indexOf(filter) == 0)
+            if (name.includes(filter) || email.includes(filter)) {
+                lis[i].style.display = 'list-item';
+                records.push(i);
+            }
+            else {
+                lis[i].style.display = 'none';    
+            }
+        }
+        if(records.length == 0){
+            toggle('message')
+        }
+        if (input.value == ''){
+            showPageItems();
+        }
     }
-    console.log("windows is loaded");
-//}
-/* hide stuff
-function pageTurn(pageNumber){
-    var rangeEnd = Math.floor((pages - pageNumber)*10);
-    var rangeStart = pageNumber * pageItems;
-    
-    console.log(rangeStart + ", " + rangeEnd)
-    
-    for(i = 0; i < studentCount; i++){
-        var hidden = document.getElementById('student-list').children[i].style.display = 'none';
-    }
-    for(i = rangeEnd - 1; (i <= rangeEnd && i > rangeStart); i--) {
-    // for(i = 53; (i <= 54 && i >= 50); i-- ){
-       var show = document.getElementById('student-list').children[i].style.display = 'block';
-       console.log(i);
-    }
+
+function toggle(obj) {
+	var el = document.getElementById(obj);
+	if ( el.style.display != 'none' ) {
+		el.style.display = 'none';
+	}
+	else {
+		el.style.display = '';
+	}
 }
-*/
-
-var input = document.getElementById('search');
-input.onkeyup = function () {
-    var filter = input.value.toUpperCase();
-    //var lis = document.getElementsByTagName('li');
-    var lis = document.querySelector('#student-list').children;
-    for (var i = 0; i < lis.length; i++) {
-        var name = lis[i].getElementsByClassName('name')[0].innerHTML;
-        var email = lis[i].getElementsByClassName('email')[0].innerHTML;
-        if (name.toUpperCase().indexOf(filter) == 0) 
-            lis[i].style.display = 'list-item';
-        else
-            lis[i].style.display = 'none';
-    }
-    if (input.value == ''){
-        showPageItems();
-    }
-}
-
-
