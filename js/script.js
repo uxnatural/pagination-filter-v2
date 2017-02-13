@@ -11,7 +11,7 @@
     var pages = new Array ();
     var pageNumber = 0;
 
-    //load students references into studentArray
+    //load li references into studentArray
     var loadStudents = function loadStudents(){
         for(i = 0; i < studentCount; i++){
             studentArray.push(i);
@@ -42,10 +42,20 @@
         var pagination = '<li><a class="active" href="#">' + i + '</a></li>';
         lis.insertAdjacentHTML('afterbegin',pagination);
     }
+    
+    //add event listener to the pagination and capture the innerHTML of the target button clicked via event bubble
+    var theParent = document.querySelector('#pagination');
+    theParent.addEventListener("click", newPage, false);
 
-    document.getElementsByTagName("A").addEventListener("click", function(){
-        console.log(this.innerHTML);
-    });
+    //add event to capture the innerHTML of the target button clicked via event bubble then set pageNumber to the innerHTML
+    function newPage(e) {
+        if (e.target !== e.currentTarget) {
+            var clickedItem = e.target.innerHTML;
+            pageNumber = (clickedItem - 1);
+            showPageItems();
+        }
+        e.stopPropagation();
+    }
     
     //showPageItems function
     function showPageItems(){
@@ -65,6 +75,7 @@
         }
 
     }
+    showPageItems();
 
     //hide all but the first page of students
 /*
@@ -90,18 +101,23 @@ function pageTurn(pageNumber){
     }
 }
 */
-/*
+
 var input = document.getElementById('search');
 input.onkeyup = function () {
     var filter = input.value.toUpperCase();
-    var lis = document.getElementsByTagName('li');
+    //var lis = document.getElementsByTagName('li');
+    var lis = document.querySelector('#student-list').children;
     for (var i = 0; i < lis.length; i++) {
         var name = lis[i].getElementsByClassName('name')[0].innerHTML;
+        var email = lis[i].getElementsByClassName('email')[0].innerHTML;
         if (name.toUpperCase().indexOf(filter) == 0) 
             lis[i].style.display = 'list-item';
         else
             lis[i].style.display = 'none';
     }
+    if (input.value == ''){
+        showPageItems();
+    }
 }
-*/
+
 
