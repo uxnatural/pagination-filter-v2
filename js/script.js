@@ -38,7 +38,7 @@
     //insert pagination buttons
     for(i = pages[0].length; i > 0; i--){
         var lis = document.getElementById('pagination');
-        var pagination = '<li><a class="active" href="#">' + i + '</a></li>';
+        var pagination = '<li><a href="#">' + i + '</a></li>';
         lis.insertAdjacentHTML('afterbegin',pagination);
     }
     
@@ -60,6 +60,7 @@
     function showPageItems(){
          //hide all items
         var pageSelected = pages[0][pageNumber];
+        var activeCurrent = document.getElementById('pagination').getElementsByTagName('li')[pageNumber].firstChild;
         //hide all items
         for(i = 0; i < studentCount; i++){
             var hidden = document.getElementById('student-list').children[i].style.display = 'none';
@@ -69,8 +70,6 @@
             pageSelected.forEach(function(element) {
                 var show = document.getElementById('student-list').children[element].style.display = 'block';
             });
-        } else {
-            console.log("out of bounds")
         }
 
     }
@@ -98,19 +97,11 @@
             }
         }
         if(records.length == 0){
-            toggle('message')
+            message.style.display = 'block';
+        } else {
+            message.style.display = 'none'
         }
         if (input.value == ''){
             showPageItems();
         }
     }
-
-function toggle(obj) {
-	var el = document.getElementById(obj);
-	if ( el.style.display != 'none' ) {
-		el.style.display = 'none';
-	}
-	else {
-		el.style.display = '';
-	}
-}
