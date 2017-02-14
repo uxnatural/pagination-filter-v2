@@ -1,5 +1,5 @@
 //When the page loads, your program should hide all but the first 10 students in the list.
-//window.onload = function () {
+window.onload = function () {
     
     //create an initial array of students
     var studentArray = [];    
@@ -8,6 +8,7 @@
     var pageItems = showItems - 1;
     var pages = new Array ();
     var pageNumber = 0;
+   // var setActivePage = document.querySelector('a').contains('1')
 
     //load li references into studentArray
     var loadStudents = function loadStudents(){
@@ -48,14 +49,21 @@
 
     //add event to capture the innerHTML of the target button clicked via event bubble then set pageNumber to the innerHTML
     function newPage(e) {
+        //add active class to current page button
         if (e.target !== e.currentTarget) {
+            //for(i = 0; i < e.currentTarget)
             var clickedItem = e.target.innerHTML;
+            var currentItem = document.querySelector('a.active');
+            if(currentItem !== null){
+                currentItem.classList.remove('active')
+            }
+            e.target.className = 'active';
+            //problem:the current page button should be the only button with the active class
             pageNumber = (clickedItem - 1);
             showPageItems();
         }
         e.stopPropagation();
-    }
-    
+    }  
     //showPageItems function
     function showPageItems(){
          //hide all items
@@ -74,6 +82,7 @@
 
     }
     showPageItems();
+
 
 //
     var input = document.getElementById('search');
@@ -105,3 +114,4 @@
             showPageItems();
         }
     }
+}
