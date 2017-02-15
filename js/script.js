@@ -15,7 +15,6 @@
         for(i = 0; i < studentCount; i++){
             studentArray.push(i);
         }
-        console.log("students are loaded");
     }();
  
     //function that will group the studentArray into pages based on the # of students and the desired items shown
@@ -26,7 +25,6 @@
             groups.push(arr.slice(i, i + chunkSize));
         }
         pages.push(groups);
-        console.log('pages are set');
     }
     createGroupedArray(studentArray,showItems);
     
@@ -41,6 +39,7 @@
     //add event listener to the pagination and capture the innerHTML of the target button clicked via event bubble
     var theParent = document.querySelector('#pagination');
     theParent.addEventListener("click", newPage, false);
+    theParent.querySelector('a').classList.add('active');
 
     //add event to capture the innerHTML of the target button clicked via event bubble then set pageNumber to the innerHTML
     function newPage(e) {
