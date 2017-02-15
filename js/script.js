@@ -1,23 +1,22 @@
-//When the page loads, your program should hide all but the first 10 students in the list.
-window.onload = function () {
+//When the page loads, your program should hide all but the first 10 students in the list
+//window.onload = function () {
     
     //create an initial array of students
     var studentArray = [];    
     var studentCount = document.getElementById('student-list').children.length;
     var showItems = 10;
     var pageItems = showItems - 1;
-    var pages = new Array ();
+    var pages = [];
     var pageNumber = 0;
-   // var setActivePage = document.querySelector('a').contains('1')
+    var searchBox = '<div class="student-search" id="student-search"><input type="text" id="search" class="search" placeholder="Search for students..."><button id="searchBtn">Search</button></div>';
 
     //load li references into studentArray
-    var loadStudents = function loadStudents(){
+    var loadStudents = function (){
         for(i = 0; i < studentCount; i++){
             studentArray.push(i);
         }
         console.log("students are loaded");
-    }
-    loadStudents();
+    }();
  
     //function that will group the studentArray into pages based on the # of students and the desired items shown
     var createGroupedArray = function(arr, chunkSize) {
@@ -32,10 +31,6 @@ window.onload = function () {
     createGroupedArray(studentArray,showItems);
     
 
-    //insert searchbox input
-    var searchBox = '<input type="text" id="search" class="search" placeholder="Search for students..." /><button id="searchBtn" >Search</button>';
-    document.getElementById('student-search').innerHTML = searchBox;
-    
     //insert pagination buttons
     for(i = pages[0].length; i > 0; i--){
         var lis = document.getElementById('pagination');
@@ -66,10 +61,9 @@ window.onload = function () {
     }  
     //showPageItems function
     function showPageItems(){
-         //hide all items
+        //hide all items
         var pageSelected = pages[0][pageNumber];
         var activeCurrent = document.getElementById('pagination').getElementsByTagName('li')[pageNumber].firstChild;
-        //hide all items
         for(i = 0; i < studentCount; i++){
             var hidden = document.getElementById('student-list').children[i].style.display = 'none';
         }
@@ -78,25 +72,23 @@ window.onload = function () {
             pageSelected.forEach(function(element) {
                 var show = document.getElementById('student-list').children[element].style.display = 'block';
             });
-        }
-
+        }        
     }
     showPageItems();
 
-
-//
+    //add search input
+    document.querySelector('.page-header').insertAdjacentHTML('beforeend', searchBox); 
     var input = document.getElementById('search');
     var button = document.getElementById('searchBtn');
-    //input.onkeyup = function () {
+    var msgTxt = '<div id="message" style="display:none">No results.</div>';
+    document.querySelector('.list').insertAdjacentHTML('beforeend', msgTxt);
     button.onclick = function () {
         var filter = input.value.toUpperCase();
-        //var lis = document.getElementsByTagName('li');
-        var lis = document.querySelector('#student-list').children;
+        var lis = document.querySelector('#student-list').getElementsByTagName('li');
         var records = [];
         for (var i = 0; i < lis.length; i++) {
             var name = lis[i].getElementsByClassName('name')[0].innerHTML.toUpperCase();
             var email = lis[i].getElementsByClassName('email')[0].innerHTML.toUpperCase();
-            //if (name.toUpperCase().indexOf(filter) == 0)
             if (name.includes(filter) || email.includes(filter)) {
                 lis[i].style.display = 'list-item';
                 records.push(i);
@@ -105,13 +97,16 @@ window.onload = function () {
                 lis[i].style.display = 'none';    
             }
         }
+        var msg = document.getElementById('message');
         if(records.length == 0){
-            message.style.display = 'block';
+           msg.style.display = 'block';
         } else {
-            message.style.display = 'none'
+           msg.style.display = 'none';
         }
         if (input.value == ''){
             showPageItems();
+            msg.style.display = 'none';
         }
     }
-}
+    
+//}
